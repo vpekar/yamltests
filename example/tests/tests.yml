@@ -1,0 +1,21 @@
+example.extractor:
+
+  extract:
+  
+    - description: "Extract mention at the beginning of a tweet"
+      text: "@username reply"
+      expected: "username"
+  
+  
+  Extractor:
+  
+    extract:
+    
+      - description: "Extract mention at the beginning of a tweet"
+        text: "@username reply"
+        expected: "username"
+
+      - description: "Extract mention at the end of a tweet"
+        text: "mention @username"
+        expected: ["username"]
+  
