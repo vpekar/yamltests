@@ -24,7 +24,7 @@ From the setup directory::
 Usage
 ------
 
-Add the ``--with-yaml-tests`` option. Can be combined with other options, e.g., ``--with-coverage``.
+Add the ``--with-yaml-tests`` option. Can be combined with other options, e.g., ``--with-coverage``::
 
      nosetests --with-yaml-tests
      
