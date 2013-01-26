@@ -17,7 +17,7 @@ setup(
     long_description=""" """,
     author="Viktor Pekar",
     author_email="v.pekar@gmail.com",
-    url="https://github.com/vpekar/yamltests",,
+    url="https://github.com/vpekar/yamltests",
     license="New BSD License",
     classifiers=classifiers,
     packages=find_packages(),

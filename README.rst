@@ -13,6 +13,10 @@ Installation
 From the setup directory::
 
      python setup.py install
+     
+Using pip::
+
+     pip install https://github.com/vpekar/yamltests/archive/master.zip
 
 Testing the plugin
 -----------------
