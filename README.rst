@@ -58,6 +58,8 @@ Should be as follows::
                     text: "... @username ..."
                     expected: ["username"]
 
+where ``text`` is the input to the function/method being tested and ``expected`` is its expected output.
+
 Filenames should begin with "test" and have extension ".yml".
 
 For a working example, see ``example/tests/tests.yml``.
@@ -66,13 +68,13 @@ Types of actual and expected outputs
 -------------------------------------
 
 Each function/method being tested can output either a string or a 
-list. The expected value can be either a string or a list. 
-- If the expected value is a string and actual value is a string, assertEqual
-is used.
-- If the expected value is a string and actual value is a list, assertIn is 
-used.
-- If the expected value is a list and actual value is a list, assertListEqual
-is used.
+list. The expected value can be either a string or a list.
+
+- If the expected value is a string and actual value is a string, assertEqual is used.
+
+- If the expected value is a string and actual value is a list, assertIn is used.
+
+- If the expected value is a list and actual value is a list, assertListEqual is used.
 
 Notes
 ------
