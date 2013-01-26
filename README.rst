@@ -7,17 +7,17 @@ Overview
 yamltests is `nose <http://somethingaboutorange.com/mrl/projects/nose>`_ plugin for running tests written in `YAML <http://en.wikipedia.org/wiki/YAML>`_. 
 
 
-Installation
+Installation::
 -----------
 
      python setup.py install
 
-Testing the plugin
+Testing the plugin::
 -----------------
 
      python tests.py
 
-Usage
+Usage::
 ------
 
      nosetests --with-yaml-tests
@@ -32,7 +32,7 @@ To test the *example* package::
      OK
      
 
-Format of YAML files
+Format of YAML files::
 --------------------
 
      path.to.myModule:
