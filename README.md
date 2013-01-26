@@ -1,30 +1,28 @@
-Overview
+yamltests
 =======
 
-A `Nose`_ plugin for running tests written in `YAML`_. The primary aim is to make it easier to write and manage numerous repetitive tests in situations such as text extraction and cleaning.
+Overview
+---------
 
-
-.. _Nose: http://somethingaboutorange.com/mrl/projects/nose
-
-.. _YAML: http://en.wikipedia.org/wiki/YAML
+**yamltests** is `Nose <http://somethingaboutorange.com/mrl/projects/nose>`_ plugin for running tests written in `YAML <http://en.wikipedia.org/wiki/YAML>`_. 
 
 
 Installation
-========
+-----------
 
      python setup.py install
 
 Testing the plugin
-=============
+-----------------
 
      python tests.py
 
 Usage
-=====
+------
 
      nosetests --with-yaml-tests
-	
-To test the example package:
+     
+To test the *example* package::
 
      $ nosetests example --with-yamltests
      .....
@@ -32,21 +30,21 @@ To test the example package:
      Ran 5 tests in 0.014s
 
      OK
-	
+     
 
 Format of YAML files
-===============
+--------------------
 
      path.to.myModule:
-	 myFunctionInMyModule:
-	     description: "Extract twitter handle"
-	     text: "... @username ..."
-	     expected: "username"
-	 myClassInMyModule:
-	     myMethod:
-		 description: "Extract twitter handle"
-		 text: "... @username ..."
-		 expected: ["username"]
+          myFunctionInMyModule:
+               description: "Extract twitter handle"
+               text: "... @username ..."
+               expected: "username"
+          myClassInMyModule:
+               myMethod:
+                    description: "Extract twitter handle"
+                    text: "... @username ..."
+                    expected: ["username"]
 
 Filenames should begin with "test" and have extension ".yml".
 
