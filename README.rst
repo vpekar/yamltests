@@ -4,7 +4,7 @@ yamltests
 Overview
 ---------
 
-**yamltests** is `Nose <http://somethingaboutorange.com/mrl/projects/nose>`_ plugin for running tests written in `YAML <http://en.wikipedia.org/wiki/YAML>`_. 
+yamltests is `nose <http://somethingaboutorange.com/mrl/projects/nose>`_ plugin for running tests written in `YAML <http://en.wikipedia.org/wiki/YAML>`_. 
 
 
 Installation
@@ -51,7 +51,7 @@ Filenames should begin with "test" and have extension ".yml".
 For a working example, see ``example/tests/tests.yml``.
 
 Types of actual and expected outputs
-============================
+-------------------------------------
 
 Each function/method being tested can output either a string or a 
 list. The expected value can be either a string or a list. 
@@ -63,7 +63,7 @@ used.
 is used.
 
 Notes
-====
+------
 
 - If the yaml file contains comma-separated module name (``SomePackage.SomeModule``) then the ``__init__.py`` file inside SomePackage should explicitly import all modules (see the ``__init__.py`` file in the example folder)
 
