@@ -21,3 +21,15 @@ class Extractor:
         """Returns a list of matched strings
         """
         return P.findall(text)
+
+
+class ExtractorWithInitKwargs:
+    
+    def __init__(self, excluded_names):
+        self.excluded_names = excluded_names
+    
+    def extract(self, text):
+        """Returns a list of matched strings
+        """
+        return [x for x in P.findall(text) if x not in self.excluded_names]
+    

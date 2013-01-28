@@ -21,6 +21,7 @@ LOGGER = logging.getLogger('nose.plugins.yamltests')
 def do_import(name):
     """Import a module specified as a string
     """
+    LOGGER.debug('Importing %s' % name)
     components = name.split('.')
     module = __import__(components[0])
     for comp in components[1:]:
@@ -39,10 +40,11 @@ class Case(unittest.TestCase):
     func_name = None
     class_name = None
     file_name = None
+    class_init_kwargs = {}
     
     def setUp(self):
         if self.class_name:
-            self.instance = globals()[self.class_name]()
+            self.instance = globals()[self.class_name](**self.class_init_kwargs)
      
     def runTest(self):
         
@@ -83,7 +85,7 @@ class YamlTestParser:
         self.logger = logging.getLogger(__name__)
     
     def create_testcase(self, case_data, func_name, file_name,
-                      class_name=None):
+                      class_name=None, class_init_kwargs={}):
         """Construct a test case
         """
         case = Case()
@@ -93,6 +95,7 @@ class YamlTestParser:
         case.expected = case_data['expected']
         case.class_name = class_name
         case.file_name = file_name
+        case.class_init_kwargs = class_init_kwargs
         return case
 
     def get_cases(self, fname):
@@ -117,7 +120,14 @@ class YamlTestParser:
                 elif isinstance(class_tests, dict):
                     # testing a class
                     kwargs['class_name'] = class_name
+                    kwargs['class_init_kwargs'] = \
+                                        class_tests.get('class_init_kwargs', {})
+                    if not isinstance(kwargs['class_init_kwargs'], dict):
+                        raise Exception("class_init_kwargs should be a dict. "
+                                "Got %s" % repr(kwargs['class_init_kwargs']))
                     for method_name, method_tests in class_tests.items():
+                        if method_name == 'class_init_kwargs':
+                            continue
                         kwargs['func_name'] = method_name
                         for case_data in method_tests:
                             yield self.create_testcase(case_data, **kwargs)

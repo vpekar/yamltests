@@ -6,9 +6,8 @@ example.extractor:
       text: "@username reply"
       expected: "username"
   
-  
   Extractor:
-  
+    
     extract:
     
       - description: "Extract mention at the beginning of a tweet"
@@ -19,3 +18,14 @@ example.extractor:
         text: "mention @username"
         expected: ["username"]
   
+  ExtractorWithInitKwargs:
+      
+      class_init_kwargs:
+        excluded_names: ["username"]
+      
+      extract:
+      
+        - description: "Do not extract excluded names"
+          text: "mention @username"
+          expected: []
+      
