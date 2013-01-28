@@ -79,6 +79,6 @@ list. The expected value can be either a string or a list.
 Notes
 ------
 
-- If the yaml file contains comma-separated module name (``SomePackage.SomeModule``) then the ``__init__.py`` file inside SomePackage should explicitly import all modules (see the ``__init__.py`` file in the example folder)
+- If the yaml file contains dot-separated module name (``SomePackage.SomeModule``) then the ``__init__.py`` file inside SomePackage should explicitly import all modules (see the ``__init__.py`` file in the example folder)
 
 

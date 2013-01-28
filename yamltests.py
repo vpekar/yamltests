@@ -1,29 +1,4 @@
-"""A nose plugin for tests written in YAML (.yml). The format of tests:
-
-path.to.myModule:
-    myFunctionInMyModule:
-        description: "Extract twitter handle"
-        text: "... @username ..."
-        expected: "username"
-    myClassInMyModule:
-        myMethod:
-            description: "Extract twitter handle"
-            text: "... @username ..."
-            expected: ["username"]
-
-Note that the function/method being tested can output either a string or a 
-list. The expected value can be either a string or a list. 
-- If the expected value is a string and actual value is a string, assertEqual
-is used.
-- If the expected value is a string and actual value is a list, assertIn is 
-used.
-- If the expected value is a list and actual value is a list, assertListEqual
-is used.
-
-Notes:
-- If the yaml file contains comma-separated module name (SomePackage.SomeModule)
-then the __init__.py file inside SomePackage should explicitly import all
-modules (see the __init__.py file in the example folder)
+"""A nose plugin for tests written in YAML (.yml). 
 
 Created on 21 Jan 2013
 
@@ -185,25 +160,3 @@ class YamlTests(Plugin):
             yield case
         if not flag:
             yield False
-
-"""
-if __name__ == "__main__":
-     
-     ytp = YamlTestParser()
-     fh = open('tests.yml')
-     print '='*80
-     for case in ytp.get_cases(fh):
-      test_result = unittest.TestResult()
-      case.run(test_result)
-      print 'Description:', case.description
-      print 'Input:', case.input
-      print 'Expected:', case.expected
-      print 'Actual:', case.actual
-      print 'Test result:', test_result
-      for error in test_result.errors:
-           print '\tError:', error[1]
-      for failure in test_result.failures:
-           print '\tFailure:', failure[1]
-      print '-'*80
-     print '='*80
-"""
