@@ -37,7 +37,7 @@ To test the *example* package::
      $ nosetests example --with-yamltests
      .....
      ----------------------------------------------------------------------
-     Ran 5 tests in 0.014s
+     Ran 6 tests in 0.014s
 
      OK
      
@@ -81,4 +81,4 @@ Notes
 
 - If the yaml file contains dot-separated module name (``SomePackage.SomeModule``) then the ``__init__.py`` file inside SomePackage should explicitly import all modules (see the ``__init__.py`` file in the example folder)
 
-
+- Optionally, the class being tested can be initialised with arguments (e.g., a mocked database) specified in ``init_kwargs.py``, placed in the same folder as the test*.yaml files. See ``init_kwargs.py`` in the example folder.

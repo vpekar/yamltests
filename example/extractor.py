@@ -25,11 +25,13 @@ class Extractor:
 
 class ExtractorWithInitKwargs:
     
-    def __init__(self, excluded_names):
-        self.excluded_names = excluded_names
+    def __init__(self, lookup):
+        """lookup is an object with names to be excluded
+        """
+        self.lookup = lookup
     
     def extract(self, text):
         """Returns a list of matched strings
         """
-        return [x for x in P.findall(text) if x not in self.excluded_names]
+        return [x for x in P.findall(text) if not self.lookup.is_excluded(x)]
     

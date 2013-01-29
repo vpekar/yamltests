@@ -40,11 +40,11 @@ class Case(unittest.TestCase):
     func_name = None
     class_name = None
     file_name = None
-    class_init_kwargs = {}
+    init_kwargs = {}
     
     def setUp(self):
         if self.class_name:
-            self.instance = globals()[self.class_name](**self.class_init_kwargs)
+            self.instance = globals()[self.class_name](**self.init_kwargs)
      
     def runTest(self):
         
@@ -85,7 +85,7 @@ class YamlTestParser:
         self.logger = logging.getLogger(__name__)
     
     def create_testcase(self, case_data, func_name, file_name,
-                      class_name=None, class_init_kwargs={}):
+                      class_name=None, init_kwargs={}):
         """Construct a test case
         """
         case = Case()
@@ -95,45 +95,52 @@ class YamlTestParser:
         case.expected = case_data['expected']
         case.class_name = class_name
         case.file_name = file_name
-        case.class_init_kwargs = class_init_kwargs
+        case.init_kwargs = init_kwargs
         return case
+
+    def parse_yaml(self, fname):
+        return load(open(fname), Loader=Loader)
+
+    def get_class(self, fname):
+        """Yield test data for one class/function
+        """
+        for module_name, module_tests in self.parse_yaml(fname).items():
+            for class_name, class_tests in module_tests.items():
+                yield module_name, class_name, class_tests
 
     def get_cases(self, fname):
         """Yield TestCases found in the file.
         """
-        for module_name, module_tests in self.parse_yaml(fname).items():
+        
+        sys.path.append(os.path.dirname(fname))
+        try:
+            from init_kwargs import init_kwargs
+            LOGGER.debug("Imported from %s: %s" % (fname, repr(init_kwargs)))
+        except ImportError:
+            init_kwargs = {}
+            LOGGER.debug("Failed to import init kwargs from %s" % fname)
+        
+        for module_name, class_name, class_tests in self.get_class(fname):
+            # import the class/function
+            full_name = "%s.%s" % (module_name, class_name)
+            globals()[class_name] = do_import(full_name)
             
-            for class_name, class_tests in module_tests.items():
+            kwargs = {'file_name': fname}
             
-                # import the class/function
-                full_name = "%s.%s" % (module_name, class_name)
-                globals()[class_name] = do_import(full_name)
-                
-                kwargs = {'file_name': fname}
-                
-                if isinstance(class_tests, list):
-                    # testing a function
-                    kwargs['func_name'] = class_name
-                    for case_data in class_tests:
+            if isinstance(class_tests, list):
+                # testing a function
+                kwargs['func_name'] = class_name
+                for case_data in class_tests:
+                    yield self.create_testcase(case_data, **kwargs)
+                    
+            elif isinstance(class_tests, dict):
+                # testing a class
+                kwargs['init_kwargs'] = init_kwargs.get(class_name, {})
+                kwargs['class_name'] = class_name
+                for method_name, method_tests in class_tests.items():
+                    kwargs['func_name'] = method_name
+                    for case_data in method_tests:
                         yield self.create_testcase(case_data, **kwargs)
-                        
-                elif isinstance(class_tests, dict):
-                    # testing a class
-                    kwargs['class_name'] = class_name
-                    kwargs['class_init_kwargs'] = \
-                                        class_tests.get('class_init_kwargs', {})
-                    if not isinstance(kwargs['class_init_kwargs'], dict):
-                        raise Exception("class_init_kwargs should be a dict. "
-                                "Got %s" % repr(kwargs['class_init_kwargs']))
-                    for method_name, method_tests in class_tests.items():
-                        if method_name == 'class_init_kwargs':
-                            continue
-                        kwargs['func_name'] = method_name
-                        for case_data in method_tests:
-                            yield self.create_testcase(case_data, **kwargs)
-    
-    def parse_yaml(self, fname):
-        return load(open(fname), Loader=Loader)
 
 
 class YamlTests(Plugin):

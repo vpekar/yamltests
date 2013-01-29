@@ -20,12 +20,9 @@ example.extractor:
   
   ExtractorWithInitKwargs:
       
-      class_init_kwargs:
-        excluded_names: ["username"]
-      
       extract:
       
-        - description: "Do not extract excluded names"
+        - description: "Do not extract excluded names, exclusions passed to __init__ of the extractor"
           text: "mention @username"
           expected: []
-      
+
