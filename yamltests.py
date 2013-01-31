@@ -57,24 +57,30 @@ class Case(unittest.TestCase):
       
         msg_vars =  (self.file_name, self.desc, self.actual, self.expected)
         
-        if isinstance(self.expected, list) and isinstance(self.actual, list):
+        expected_is_list = isinstance(self.expected, list)
+        actual_is_list = isinstance(self.actual, list)
+        expected_is_str = isinstance(self.expected, str) or \
+                                        isinstance(self.expected, unicode)
+        actual_is_str = isinstance(self.actual, str) or \
+                                isinstance(self.actual, unicode)
+        if expected_is_list and actual_is_list:
             msg = "%s: %s\n\tActual: %s\n\t!=\n\tExpected %s" % msg_vars
             self.assertListEqual(self.actual, self.expected, msg)
-        elif isinstance(self.expected, str):
-            if isinstance(self.actual, list):
+        elif expected_is_str:
+            if actual_is_list:
                 msg = "%s: %s\n\tActual %s does not have Expected \"%s\""
                 self.assertIn(self.expected, self.actual, msg  % msg_vars)
-            elif isinstance(self.actual, str):
+            elif actual_is_str:
                 msg = "%s: %s\n\tActual: \"%s\" != Expected \"%s\"" % msg_vars
                 self.assertEqual(self.actual, self.expected, msg)
             else:
-                raise TypeError("Actual value should be a list or a "
-                    "string. Got %s (%s)" % (type(self.actual), self.file_name))
+                raise TypeError("Actual value should be a list, a string, or"
+                   "unicode. Got %s (%s)" % (type(self.actual), self.file_name))
         else:
             raise TypeError("Either both actual and expected values should "
-                "be lists, or expected value should be a string. Got actual "
-                "type %s, expected type %s (%s)" % (type(self.actual), 
-                type(self.expected), self.file_name))
+                "be lists, or expected value should be a string or unicode."
+                " Got actual type %s, expected type %s (%s)" % 
+                (type(self.actual), type(self.expected), self.file_name))
 
 
 class YamlTestParser:
